@@ -75,6 +75,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                   logger.info(" Header :  {}", requestHeader);
                   token = requestHeader.substring(7);
                   try {
+                      System.out.println(7777777);
 
                       username = this.jwtHelper.getUsernameFromToken(token);
 

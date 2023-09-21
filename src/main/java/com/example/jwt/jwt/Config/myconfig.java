@@ -6,6 +6,8 @@ import jakarta.servlet.http.HttpSession;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -26,7 +28,7 @@ public class myconfig {
         return  new BCryptPasswordEncoder();
     }
 
-    @Bean
+   /* @Bean
     public UserDetailsService getUserDetailsService()
     {
         UserDetails user= User.withUsername("vinit").password(getBrcyptPasswordEncoder().encode("vinit")).
@@ -34,7 +36,30 @@ public class myconfig {
         UserDetails user1= User.withUsername("aditi").password(getBrcyptPasswordEncoder().encode("aditi")).
                 build();
         return  new InMemoryUserDetailsManager(user,user1);
+    } */
+
+
+    @Bean
+    public AuthenticationProvider authenticationProvider()
+    {
+        DaoAuthenticationProvider daoAuthenticationProvider= new DaoAuthenticationProvider();
+        daoAuthenticationProvider.setUserDetailsService(this.getuserDetailsService());
+        daoAuthenticationProvider.setPasswordEncoder(getBrcyptPasswordEncoder());
+        return daoAuthenticationProvider;
     }
+
+
+    @Bean
+    public UserDetailsService getuserDetailsService()
+    {
+        return  new UserDetailsServiceImpl();
+    }
+
+
+
+
+
+
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration builder) throws Exception {

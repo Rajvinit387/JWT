@@ -15,6 +15,7 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,8 +25,9 @@ public class JwtController  {
 
   // public   static int flag=0;
 
-    @Autowired
-    private HttpSession session;
+
+
+
 
     @Autowired
     private UserDetailsService userDetailsService;
@@ -51,7 +53,7 @@ public class JwtController  {
         {
             throw new NullPointerException("Body is empty");
         }
-       this.doAuthenticate(request.getEmail(), request.getPassword());
+       this.doAuthenticate(request.getEmail(),  request.getPassword());
        UserDetails userDetails = userDetailsService.loadUserByUsername(request.getEmail());
         String token = this.helper.generateToken(userDetails);
 

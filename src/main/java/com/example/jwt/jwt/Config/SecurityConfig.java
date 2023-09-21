@@ -36,6 +36,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests((auth ->
                                auth.requestMatchers("/home").authenticated()
                     .requestMatchers("/auth/login").permitAll()
+                                       .requestMatchers("/home/addUser").permitAll()
                             .anyRequest().
                             authenticated()
 
